@@ -1,5 +1,5 @@
 # netliself
-Super simple self hosting, setup your self hosted website in less than 5 minutes
+Super simple self hosting, setup your self hosted website in less than 10 minutes
 
 netliself helps you to setup an open source variant of a service similar to [netlify](https://www.netlify.com/) and host it yourself wherever you like! 
 
@@ -7,7 +7,7 @@ It includes simple form submission email forwarding, which allows you to add for
 
 netliself is prepared to run in gitlab and allows you to update your website by commiting to your gitlab repo.
 
-The whole setup of the service after clicking a virtual server and configuring it, should take less than 5 minutes including ssl generation via letsencrypt. Please open a github issue if not.  
+The whole setup of the service after clicking a virtual server and configuring it, should take less than 10 minutes including ssl generation via letsencrypt.
 
 You can use the exact same setup for production as well as for local development. Getting your development setup ready is done with one `docker-compose up`
 
