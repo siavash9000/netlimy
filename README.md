@@ -19,8 +19,9 @@ You can tryout netlimy in two steps:
 
 `git clone https://github.com/siavash9000/netlimy.git` 
 
-and then
-`docker-compose up` 
+and then  
+
+`docker-compose up`  
 
 in the folder netlimy. Then you should be able to go to 
 https://localhost and see the template website. netlimy is 
