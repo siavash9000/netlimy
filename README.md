@@ -62,9 +62,10 @@ alias dind-machine="docker run -v $DIND_MACHINE_DATA:/root/.docker/ nukapi/dind-
 echo 'alias dind-machine="docker run -v $DIND_MACHINE_DATA:/root/.docker/ nukapi/dind-machine docker-machine"' >> ~/.bashrc
 ```  
 
-Now you can provision a cloud server with docker swarm installed in one command. Here an example how
-to provision a digitalocean docker swarm. Replace `PERSONAL_ACCESS_TOKEN` with your digitalocean personal access token 
-and perform the following commands to provision a small digitalocean cloud server:  
+Now you can provision a cloud server in one command and initialize docker swarm on it. 
+For example you can provision a digitalocean server for X cents per hour and init a docker 
+swarm on it by replacing `PERSONAL_ACCESS_TOKEN` with your digitalocean personal access 
+token and perform the following commands to provision a small digitalocean cloud server:  
 
 ```
 dind-machine create --driver digitalocean \  
