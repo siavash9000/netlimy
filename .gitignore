@@ -1,4 +1,5 @@
 website/_site
+website/vendor
 website/.sass-cache
 .idea/
 # Byte-compiled / optimized / DLL files
