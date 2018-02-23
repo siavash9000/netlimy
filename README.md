@@ -24,7 +24,7 @@ and then
 `docker-compose up`  
 
 in the folder netlimy. Then you should be able to go to 
-https://localhost and see the template website. netlimy is 
+http://localhost and see the template website. netlimy is 
 prepared for automatic reload. This means your website is rebuilt 
 on every filechange you make, so that you can inspect your changes 
 after a reload in the browser.
