@@ -1,3 +1,6 @@
+website/_site
+website/.sass-cache
+.idea/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
