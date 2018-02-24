@@ -2,10 +2,10 @@
 # Official docker image.
 image: docker:latest
 
-services:
-  - docker:dind
 variables:
   DOCKER_DRIVER: overlay
+services:
+  - docker:dind
 before_script:
   - docker login --username gitlab-ci-token --password $CI_BUILD_TOKEN registry.gitlab.com
 after_script:
@@ -20,16 +20,8 @@ build-master:
   only:
     - master
 
-build:
-  stage: build
-  script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
-    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-  except:
-    - master
-
 deploy_to_swarm:
+  stage: deploy
   script:
     - echo "$NETLIMY_TLSCACERT" > ~/.docker/ca.pem
     - echo "$NETLIMY_TLSCERT" > ~/.docker/cert.pem
