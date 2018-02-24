@@ -11,14 +11,6 @@ services:
     deploy:
       replicas: 2
 
-  form_api:
-    image: registry.gitlab.com/nukapi/form_api:latest
-    environment:
-      RELAYHOST: 'smtp-relay.gmail.com'
-      HOSTNAME: 'nukapi.com'
-    deploy:
-      replicas: 2
-
 configs:
   nginx:
     file: ./conf/nginx/nginx.conf
