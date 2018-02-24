@@ -22,3 +22,10 @@ build:
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
   except:
     - master
+
+deploy_to_swarm:
+  script:
+    - echo "$NETLIMY_TLSCACERT" > ~/.docker/ca.pem
+    - echo "$NETLIMY_TLSCERT" > ~/.docker/cert.pem
+    - echo "$NETLIMY_TLSKEY" > ~/.docker/key.pem
+    - docker --tlsverify -H tcp://$NETLIMY_SERVER_IP:2376 stack deploy --with-registry-auth --compose-file=./production.yml nukapi

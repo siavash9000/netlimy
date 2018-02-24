@@ -1,0 +1,28 @@
+version: "3.3"
+
+services:
+  nginx:
+    image: registry.gitlab.com/nukapi/website:latest
+    ports:
+      - 443:443
+      - 80:80
+    configs:
+      - source: nginx
+        target: /etc/nginx/nginx.conf
+    secrets:
+      - nukapi_fullchain.pem
+      - nukapi_privkey.pem
+    deploy:
+      replicas: 2
+
+  form_api:
+    image: registry.gitlab.com/nukapi/form_api:latest
+    environment:
+      RELAYHOST: 'smtp-relay.gmail.com'
+      HOSTNAME: 'nukapi.com'
+    deploy:
+      replicas: 2
+
+configs:
+  nginx:
+    file: ./conf/nginx/nginx.conf
