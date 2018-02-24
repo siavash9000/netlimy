@@ -4,14 +4,10 @@ services:
   nginx:
     image: registry.gitlab.com/nukapi/website:latest
     ports:
-      - 443:443
       - 80:80
     configs:
       - source: nginx
         target: /etc/nginx/nginx.conf
-    secrets:
-      - nukapi_fullchain.pem
-      - nukapi_privkey.pem
     deploy:
       replicas: 2
 
