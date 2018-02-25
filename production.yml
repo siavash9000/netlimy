@@ -8,6 +8,7 @@ services:
       - nginx_cache:/var/cache/nginx
 
   nginx:
+    image: nginx:latest
     ports:
       - 80:80
     configs:
