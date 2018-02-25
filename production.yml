@@ -17,8 +17,8 @@ services:
     configs:
       - source: nginx
         target: /etc/nginx/nginx.conf
-    volumes:
-      - nginx:/website
+#    volumes:
+#      - nginx:/website
 #      - nginx_cache:/var/cache/nginx
     deploy:
       replicas: 2
@@ -26,6 +26,6 @@ services:
 configs:
   nginx:
     file: ./conf/nginx/nginx.conf
-volumes:
-  nginx:
+#volumes:
+#  nginx:
 #  nginx_cache:
