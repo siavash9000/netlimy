@@ -28,4 +28,4 @@ configs:
     file: ./conf/nginx/nginx.conf
 volumes:
   nginx:
-  nginx_cache:
+#  nginx_cache:
