@@ -99,7 +99,7 @@ n5kwc4ukzpegh9374b31v7sde *   myserver            Ready               Active    
 
 ```
 
-## Deploy automatically via gitlab (recommended)
+## Deploy automatically via gitlab
 
 You need a gitlab account to automatically deploy your website wit each git commit. Create a new project and import from 
 github netlimy as described in [https://docs.gitlab.com/ee/user/project/import/github.html](https://docs.gitlab.com/ee/user/project/import/github.html).
@@ -118,7 +118,7 @@ For `NETLIMY_TLSCACERT` you get the value with `sudo cat $DIND_MACHINE_DATA/mach
 That's it. Gitlab builds your website now each time you commit something to your repo. The build and deploy process is very 
 simple and therefore easy to adapt or extend. Just check out the file .gitlab-ci.yml
 
-## Access your docker swarm
+# Access your docker swarm
 
 dind-machine as well as docker-machine enable you to easily access the docker daemon of your server via command line.
 You can inspect your running services 
@@ -135,7 +135,7 @@ or check the state of your nodes
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
 7ggoswurrqm745by4mbc0uf6j *   myserver            Ready               Active              Leader
 ```
-## improve deployment speed (optional)
+# improve deployment speed (optional)
 
 It takes around three minutes to build and deploy netlify in GitLab with their 
 [shared runners](https://docs.gitlab.com/ee/ci/runners/#shared-vs-specific-runners). This means your website is updated 
@@ -167,4 +167,4 @@ dind-machine ssh myserver docker run --rm -d --name gitlab-runner -v /var/run/do
 
 ```
 
-## Add an API service and access it from your website via javascript
+# Add an API service and access it from your website via javascript
