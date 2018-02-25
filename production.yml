@@ -6,6 +6,9 @@ services:
     volumes:
       - nginx:/website
       - nginx_cache:/var/cache/nginx
+    deploy:
+      restart_policy:
+        condition: on-failure
 
   nginx:
     image: nginx:latest
