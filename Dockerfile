@@ -3,7 +3,7 @@ COPY website/Gemfile /srv/jekyll
 RUN bundle install
 COPY website /srv/jekyll
 RUN mkdir -p /srv/jekyll/_site
-RUN  bundle install --path /usr/local/bundle && JEKYLL_ENV=production jekyll build --config _config.yml && cp -r /srv/jekyll/_site/ /content
+RUN  bundle install --path /usr/local/bundle && JEKYLL_ENV=production jekyll build --verbose --config _config.yml && cp -r /srv/jekyll/_site/ /content
 FROM nginx:1.9
 EXPOSE 80
 EXPOSE 443
