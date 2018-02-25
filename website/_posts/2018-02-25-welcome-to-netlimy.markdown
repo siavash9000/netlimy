@@ -1,10 +1,3 @@
----
-layout: post
-title:  "Welcome to netlimy!"
-date:   2018-02-25 15:00:00 +0700
-categories: netlimy
----
-
 # netlimy - my own website
 netlimy is an easy to use website self hosting framework. 
 Setup your self hosted website in less than 10 minutes. Including 
@@ -101,24 +94,70 @@ n5kwc4ukzpegh9374b31v7sde *   myserver            Ready               Active    
 
 ## Deploy automatically via gitlab (recommended)
 
-You need a github account Import the netlimy project 
+You need a gitlab account to automatically deploy your website wit each git commit. Create a new project and import from 
+github netlimy as described in [https://docs.gitlab.com/ee/user/project/import/github.html](https://docs.gitlab.com/ee/user/project/import/github.html).
+Then create secret variables in your project settings as described in 
+[https://docs.gitlab.com/ce/ci/variables/README.html#secret-variables](https://docs.gitlab.com/ce/ci/variables/README.html#secret-variables). You will need four variables:  
+1. `NETLIMY_SERVER_IP`    
+Write the ip adress of your server in this secret. If you used dind-machine or docker-machine for setting your server up,
+you can obtain the ip by ``` dind-machine ls``` or ``` docker-machine ls```
 
+2. `NETLIMY_TLSCACERT` , `NETLIMY_TLSCERT`, `NETLIMY_TLSKEY`  
+These variables are used in the .gitlab-ci.yml file to deploy to your swarm. You can find the values
+For `NETLIMY_TLSCACERT` you get the value with `sudo cat $DIND_MACHINE_DATA/machine/machines/myserver/ca.pem` .
+For `$NETLIMY_TLSCERT` you get the value with `sudo cat $DIND_MACHINE_DATA/machine/machines/myserver/cert.pem` .
+For `NETLIMY_TLSCACERT` you get the value with `sudo cat $DIND_MACHINE_DATA/machine/machines/myserver/key.pem` .
 
-## Deploy manually to your swarm
+That's it. Gitlab builds your website now each time you commit something to your repo. The build and deploy process is very 
+simple and therefore easy to adapt or extend. Just check out the file .gitlab-ci.yml
+
+## Access your docker swarm
+
+dind-machine as well as docker-machine enable you to easily access the docker daemon of your server via command line.
+You can inspect your running services 
 ```
 eval $(dind-machine env myserver --shell zsh) && export DOCKER_CERT_PATH="$DIND_MACHINE_DATA/machine/machines/myserver"
-sudo -E docker node ls
-```
+sudo -E docker service ls
 
-## improve deployment speed
+ID                  NAME                MODE                REPLICAS            IMAGE                                       PORTS
+l72csb3o8y58        netlimy_nginx       replicated          2/2                 registry.gitlab.com/nukapi/netlimy:latest   *:80->80/tcp
+
+```
+or check the state of your nodes
+```
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
+7ggoswurrqm745by4mbc0uf6j *   myserver            Ready               Active              Leader
+```
+## improve deployment speed (optional)
+
+It takes around three minutes to build and deploy netlify in GitLab with their 
+[shared runners](https://docs.gitlab.com/ee/ci/runners/#shared-vs-specific-runners). This means your website is updated 
+around three minutes after pushing to GitLab. You might have noticed that docker is able to use a cache for image layers 
+that did not changed. This caching can speed the build vastly. GitLabs ahred runner do not use this cacheing, but you 
+can run a private runner on your server. The build and deployment time is reduced to 1 minute (small digital ocean machine). 
+You can create a runner configuration interactively by 
 ```
 dind-machine ssh myserver docker run -i -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner register
+```
+
+This creates the file `/srv/gitlab-runner/config/config.toml`. Since docker in docker is used for the creation of the 
+docker images, we must change this file. Open a ssh shell on your server with
+```
+dind-machine ssh myserver
+```
+and open the file with vim
+```
+vim /srv/gitlab-runner/config/config.toml
+```
+Change the keys `priviliged` and `volumes` to the following values
+```
+privileged = true
+volumes = ["/cache", "/var/run/docker.sock:/var/run/docker.sock"]
+```
+and start your private gitlab runner with
+```
 dind-machine ssh myserver docker run --rm -d --name gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner:latest
 
 ```
 
-```
-privileged = true
-volumes = ["/cache", "/var/run/docker.sock:/var/run/docker.sock"]
-
-```
+## Add an API service and access it from your website via javascript
