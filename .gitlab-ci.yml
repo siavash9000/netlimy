@@ -3,7 +3,7 @@
 image: docker:latest
 
 variables:
-  DOCKER_DRIVER: overlay
+  DOCKER_DRIVER: overlayfs
 services:
   - docker:dind
 before_script:
