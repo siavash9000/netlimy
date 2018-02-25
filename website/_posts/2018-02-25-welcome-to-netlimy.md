@@ -2,7 +2,7 @@
 layout: post
 title:  "Welcome to netlimy!"
 date:   2018-02-25 15:00:00 +0700
-categories: jekyll update
+categories: netlimy
 ---
 
 # netlimy - my own website
