@@ -1,16 +1,26 @@
 version: "3.3"
 
 services:
-  nginx:
+  websitedeployer:
     image: registry.gitlab.com/nukapi/netlimy:latest
+    volumes:
+      - nginx:/website
+      - nginx_cache:/var/cache/nginx
+
+  nginx:
     ports:
       - 80:80
     configs:
       - source: nginx
         target: /etc/nginx/nginx.conf
+    volumes:
+      - nginx:/website
+      - nginx_cache:/var/cache/nginx
     deploy:
       replicas: 2
 
 configs:
   nginx:
     file: ./conf/nginx/nginx.conf
+volumes:
+  nginx:
