@@ -1,3 +1,10 @@
+---
+layout: post
+title:  "Welcome to netlimy!"
+date:   2018-02-25 15:00:00 +0700
+categories: netlimy
+---
+
 # netlimy - my own website
 netlimy is an easy to use website self hosting framework. 
 Setup your self hosted website in less than 10 minutes. Including 
