@@ -16,8 +16,8 @@
 title: netlimy
 email: netlimy@nukapi.com
 description: >- # this means to ignore newlines until "baseurl:"
-  netlimy helpy you to setup a self hosted website with fast continous deployment and build in autoscale.
-  Setup in minutes. In any cloud you like, as long as it supports docker.
+  netlimy helpy you to setup a self hosted website in minutes.
+  In any cloud you like, as long as it supports docker.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
