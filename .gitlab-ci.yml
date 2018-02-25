@@ -2,8 +2,6 @@
 # Official docker image.
 image: docker:latest
 
-variables:
-  DOCKER_DRIVER: overlayfs
 services:
   - docker:dind
 before_script:
@@ -12,6 +10,8 @@ after_script:
   - docker logout registry.gitlab.com
 
 build-master:
+  variables:
+    DOCKER_DRIVER: overlayfs
   stage: build
   script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
@@ -21,6 +21,8 @@ build-master:
     - master
 
 deploy_to_swarm:
+  variables:
+    DOCKER_DRIVER: overlay
   stage: deploy
   script:
     - echo "$NETLIMY_TLSCACERT" > ~/.docker/ca.pem
