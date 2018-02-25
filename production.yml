@@ -1,17 +1,17 @@
 version: "3.3"
 
 services:
-  websitedeployer:
-    image: registry.gitlab.com/nukapi/netlimy:latest
-    volumes:
-      - nginx:/website
-      - nginx_cache:/var/cache/nginx
-    deploy:
-      restart_policy:
-        condition: on-failure
+#  websitedeployer:
+#    image: registry.gitlab.com/nukapi/netlimy:latest
+#    volumes:
+#      - nginx:/website
+#      - nginx_cache:/var/cache/nginx
+#    deploy:
+#      restart_policy:
+#        condition: on-failure
 
   nginx:
-    image: nginx:latest
+    image: registry.gitlab.com/nukapi/netlimy:latest
     ports:
       - 80:80
     configs:
