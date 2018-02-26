@@ -9,8 +9,7 @@ EXPOSE 80
 EXPOSE 443
 RUN apk update && apk add git bash openssl curl
 RUN git clone https://github.com/lukas2511/dehydrated.git /dehydrated
-COPY conf/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY conf/dehydrated/conf /etc/dehydrated/config/conf
-COPY conf/dehydrated/domains.txt /etc/dehydrated/config/domains.txt
+COPY conf/nginx/ /etc/nginx/
+COPY conf/dehydrated/ /etc/dehydrated/config/
 RUN mkdir -p /etc/dehydrated/certs /var/www/dehydrated
 COPY --from=0 /content /website
