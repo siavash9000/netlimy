@@ -3,7 +3,7 @@ version: "3.3"
 services:
   serve:
     image: jekyll/jekyll:latest
-    command: jekyll serve --config _config.yml --watch --verbose
+    command: jekyll serve --config _config.yml --watch --verbose --livereload
     volumes:
       - ./website:/srv/jekyll
       - ./website/vendor/bundle:/usr/local/bundle

@@ -26,10 +26,8 @@ docker-compose up
 
 in the folder netlimy. Now you can open your website
 via [http://localhost:4000](http://localhost:4000) and start to adapt it. 
-netlimy is prepared for automatic reload enabling an easy workflow:
-1. Change a file and save it.
-2. Reload [http://localhost:4000](http://localhost:4000) and inspect the change.
-
+netlimy uses lekyyls livereload feature, so that you can see all changes you make without reloading 
+in your browser.
 
 # Getting started with the production setup
 
