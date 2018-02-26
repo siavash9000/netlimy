@@ -4,7 +4,7 @@ services:
   nginx:
     image: registry.gitlab.com/nukapi/netlimy:latest
     ports:
-      - 80:80
+      - 443:443
     deploy:
       replicas: 2
     depends_on:
@@ -16,7 +16,7 @@ services:
   nginx_letsencrypt:
     image: registry.gitlab.com/nukapi/netlimy:latest
     ports:
-      - 443:443
+      - 80:80
     deploy:
       replicas: 1
     volumes:
