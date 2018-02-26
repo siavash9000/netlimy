@@ -11,10 +11,10 @@
 ########################################################
 
 # Which user should dehydrated run as? This will be implictly enforced when running as root
-DEHYDRATED_USER=root
+#DEHYDRATED_USER=root
 
 # Which group should dehydrated run as? This will be implictly enforced when running as root
-DEHYDRATED_GROUP=root
+#DEHYDRATED_GROUP=root
 
 # Resolve names to addresses of IP version only. (curl)
 # supported values: 4, 6

@@ -12,6 +12,7 @@ RUN git clone https://github.com/lukas2511/dehydrated.git /dehydrated
 COPY conf/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY conf/dehydrated/conf /etc/dehydrated/config/conf
 COPY conf/dehydrated/domains.txt /etc/dehydrated/config/domains.txt
+RUN mkdir -p /etc/dehydrated/certs
 COPY --from=0 /content /website
 CMD nginx -g 'daemon off;'
 
