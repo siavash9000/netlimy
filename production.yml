@@ -20,7 +20,7 @@ services:
     deploy:
       replicas: 2
     volumes:
-      - ssl_certs: /etc/dehydrated/certs
+      - ssl_certs:/etc/dehydrated/certs
     healthcheck:
       test: ["test", "curl", "-f", "http://localhost"]
       interval: 1m
