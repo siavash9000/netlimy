@@ -7,7 +7,7 @@ RUN  bundle install --path /usr/local/bundle && JEKYLL_ENV=production jekyll bui
 FROM nginx:1.13-alpine
 EXPOSE 80
 EXPOSE 443
-RUN apk update && apk add git bash
+RUN apk update && apk add git bash openssl
 RUN git clone https://github.com/lukas2511/dehydrated.git /dehydrated
 COPY conf/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY conf/dehydrated/conf /etc/dehydrated/config/conf
