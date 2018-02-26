@@ -11,5 +11,6 @@ RUN apk update && apk add git bash openssl curl
 RUN git clone https://github.com/lukas2511/dehydrated.git /dehydrated
 COPY conf/nginx/ /etc/nginx/
 COPY conf/dehydrated/ /etc/dehydrated/config/
+COPY healthcheck.sh /healthcheck.sh
 RUN mkdir -p /etc/dehydrated/certs /var/www/dehydrated
 COPY --from=0 /content /website
