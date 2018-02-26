@@ -12,5 +12,6 @@ RUN git clone https://github.com/lukas2511/dehydrated.git /dehydrated
 COPY conf/nginx/ /etc/nginx/
 COPY conf/dehydrated/ /etc/dehydrated/config/
 COPY healthcheck.sh /healthcheck.sh
+COPY start_cert_cron.sh /start_cert_cron.sh
 RUN mkdir -p /etc/dehydrated/certs /var/www/dehydrated
 COPY --from=0 /content /website
