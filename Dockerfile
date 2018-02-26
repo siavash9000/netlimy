@@ -7,11 +7,11 @@ RUN  bundle install --path /usr/local/bundle && JEKYLL_ENV=production jekyll bui
 FROM nginx:1.13-alpine
 EXPOSE 80
 EXPOSE 443
-COPY --from=0 /content /website
-RUN apk update && apk add git
+RUN apk update && apk add git bash
 RUN git clone https://github.com/lukas2511/dehydrated.git /dehydrated
 COPY conf/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY conf/dehydrated/conf /etc/dehydrated/config/conf
 COPY conf/dehydrated/domains.txt /etc/dehydrated/config/domains.txt
+COPY --from=0 /content /website
 CMD nginx -g 'daemon off;'
 
