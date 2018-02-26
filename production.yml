@@ -9,6 +9,8 @@ services:
       replicas: 2
     depends_on:
       - nginx_letsencrypt
+    volumes:
+      - ssl_certs: /etc/dehydrated/certs
     command: nginx -c /etc/nginx/nginx_ssl.conf -g 'daemon off;'
 
   nginx_letsencrypt:
@@ -17,6 +19,11 @@ services:
       - 80:80
     deploy:
       replicas: 2
+    volumes:
+      - ssl_certs: /etc/dehydrated/certs
     healthcheck:
       test:  test "$(ls -A /etc/dehydrated/certs 2>/dev/null)"
     command: nginx -c /etc/nginx/nginx_dehydrated.conf && CMD /dehydrated/dehydrated --cron --accept-terms --config /etc/dehydrated/config/conf
+
+volumes:
+  ssl_certs:
