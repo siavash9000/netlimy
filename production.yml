@@ -26,7 +26,7 @@ services:
       timeout: 10s
       retries: 20
       test: /healthcheck.sh
-    command: "nginx -c /etc/nginx/nginx_dehydrated.conf -g 'daemon off;' & ; /dehydrated/dehydrated --cron --accept-terms --config /etc/dehydrated/config/conf"
+    command: "nginx -c /etc/nginx/nginx_dehydrated.conf -g 'daemon off;' & /dehydrated/dehydrated --cron --accept-terms --config /etc/dehydrated/config/conf"
 
 volumes:
   ssl_certs:
