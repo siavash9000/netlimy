@@ -22,11 +22,9 @@ services:
     volumes:
       - ssl_certs:/etc/dehydrated/certs
     healthcheck:
-      test: ["test", "curl", "-f", "http://localhost"]
       interval: 1m
       timeout: 10s
       retries: 20
-      start_period: 40s
       test: ./healthchek.sh
     command: "nginx -c /etc/nginx/nginx_dehydrated.conf && CMD /dehydrated/dehydrated --cron --accept-terms --config /etc/dehydrated/config/conf"
 
