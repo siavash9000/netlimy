@@ -16,7 +16,7 @@ services:
   nginx_letsencrypt:
     image: registry.gitlab.com/nukapi/netlimy:latest
     ports:
-      - 80:80
+      - 443:443
     deploy:
       replicas: 2
     volumes:
