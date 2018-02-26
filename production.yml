@@ -7,3 +7,16 @@ services:
       - 80:80
     deploy:
       replicas: 2
+    depends_on:
+      - nginx_letsencrypt
+    command: nginx -c /etc/nginx/nginx_ssl.conf -g 'daemon off;'
+
+  nginx_letsencrypt:
+    image: registry.gitlab.com/nukapi/netlimy:latest
+    ports:
+      - 80:80
+    deploy:
+      replicas: 2
+    healthcheck:
+      test:  test "$(ls -A /etc/dehydrated/certs 2>/dev/null)"
+    command: nginx -c /etc/nginx/nginx_dehydrated.conf && CMD /dehydrated/dehydrated --cron --accept-terms --config /etc/dehydrated/config/conf
