@@ -23,11 +23,6 @@ services:
         condition: none
     volumes:
       - dehydrated:/etc/dehydrated/
-    healthcheck:
-      interval: 1m
-      timeout: 10s
-      retries: 20
-      test: /healthcheck.sh
     command: /start_cert_cron.sh
 
 volumes:
