@@ -102,9 +102,9 @@ you can obtain the ip by ``` dind-machine ls``` or ``` docker-machine ls```
 
 2. `NETLIMY_TLSCACERT` , `NETLIMY_TLSCERT`, `NETLIMY_TLSKEY`  
 These variables are used in the .gitlab-ci.yml file to deploy to your swarm. You can find the values
-For `NETLIMY_TLSCACERT` you get the value with `sudo cat $DIND_MACHINE_DATA/machine/machines/myserver/ca.pem` .
-For `$NETLIMY_TLSCERT` you get the value with `sudo cat $DIND_MACHINE_DATA/machine/machines/myserver/cert.pem` .
-For `NETLIMY_TLSCACERT` you get the value with `sudo cat $DIND_MACHINE_DATA/machine/machines/myserver/key.pem` .
+For `NETLIMY_TLSCACERT` you get the value with `sudo cat $DIND_MACHINE_DATA/machine/machines/myserver/ca.pem | xclip -i -selection clipboard` .
+For `NETLIMY_TLSCERT` you get the value with `sudo cat $DIND_MACHINE_DATA/machine/machines/myserver/cert.pem | xclip -i -selection clipboard` .
+For `NETLIMY_TLSKEY` you get the value with `sudo cat $DIND_MACHINE_DATA/machine/machines/myserver/key.pem | xclip -i -selection clipboard` .
 
 That's it. Gitlab builds your website now each time you commit something to your repo. The build and deploy process is very 
 simple and therefore easy to adapt or extend. Just check out the file .gitlab-ci.yml
