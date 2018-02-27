@@ -25,7 +25,7 @@ services:
     volumes:
       - dehydrated:/etc/dehydrated/
       - well_known:/var/www/dehydrated
-    command: /dehydrated/dehydrated --cron --accept-terms --config /dehydrated/config/conf
+    command: /create_update_cert.sh
 
 volumes:
   dehydrated:

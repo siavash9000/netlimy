@@ -7,8 +7,7 @@ RUN JEKYLL_ENV=production jekyll build --verbose --config _config.yml && cp -r /
 FROM nginx:1.13-alpine
 RUN apk update && apk add git bash openssl curl
 RUN git clone https://github.com/lukas2511/dehydrated.git /dehydrated
-COPY healthcheck.sh /healthcheck.sh
-COPY start_cert_cron.sh /start_cert_cron.sh
+COPY create_update_cert.sh.sh /create_update_cert.sh
 RUN mkdir -p /etc/dehydrated/certs /etc/dehydrated/accounts /var/www/dehydrated
 COPY conf/nginx/ /etc/nginx/
 COPY conf/dehydrated/ /dehydrated/config/
