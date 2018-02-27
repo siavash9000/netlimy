@@ -11,19 +11,22 @@ services:
       - nginx_letsencrypt
     volumes:
       - dehydrated:/etc/dehydrated/
+      - well_known:/var/www/dehydrated
     command: "nginx -c /etc/nginx/nginx_ssl.conf -g 'daemon off;'"
 
-  nginx_letsencrypt:
+  dehydrated:
     image: registry.gitlab.com/nukapi/netlimy:latest
     ports:
       - 80:80
     deploy:
       replicas: 1
       restart_policy:
-        condition: none
+        delay: 48h
     volumes:
       - dehydrated:/etc/dehydrated/
-    command: /start_cert_cron.sh
+      - well_known:/var/www/dehydrated
+    command: /dehydrated/dehydrated --cron --accept-terms --config /dehydrated/config/conf
 
 volumes:
   dehydrated:
+  well_known:
