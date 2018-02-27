@@ -18,10 +18,6 @@ services:
     image: registry.gitlab.com/nukapi/netlimy:latest
     ports:
       - 80:80
-    deploy:
-      replicas: 1
-      restart_policy:
-        delay: 48h
     volumes:
       - dehydrated:/etc/dehydrated/
       - well_known:/var/www/dehydrated
