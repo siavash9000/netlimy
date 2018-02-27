@@ -10,7 +10,7 @@ services:
     depends_on:
       - nginx_letsencrypt
     volumes:
-      - ssl_certs:/etc/dehydrated/certs
+      - dehydrated:/etc/dehydrated/
     command: "nginx -c /etc/nginx/nginx_ssl.conf -g 'daemon off;'"
 
   nginx_letsencrypt:
