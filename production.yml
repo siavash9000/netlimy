@@ -20,7 +20,7 @@ services:
     deploy:
       replicas: 1
     volumes:
-      - ssl_certs:/etc/dehydrated/certs
+      - dehydrated:/etc/dehydrated/
     healthcheck:
       interval: 1m
       timeout: 10s
@@ -29,4 +29,4 @@ services:
     command: /start_cert_cron.sh
 
 volumes:
-  ssl_certs:
+  dehydrated:

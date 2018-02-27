@@ -13,5 +13,5 @@ COPY conf/nginx/ /etc/nginx/
 COPY conf/dehydrated/ /etc/dehydrated/config/
 COPY healthcheck.sh /healthcheck.sh
 COPY start_cert_cron.sh /start_cert_cron.sh
-RUN mkdir -p /etc/dehydrated/certs /var/www/dehydrated
+RUN mkdir -p /etc/dehydrated/certs /etc/dehydrated/accounts /var/www/dehydrated
 COPY --from=0 /content /website
