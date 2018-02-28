@@ -1,11 +1,12 @@
-FROM jekyll/jekyll:latest
-COPY website/Gemfile /srv/jekyll
-RUN mkdir -p /srv/jekyll/_site
-COPY website /srv/jekyll
-RUN  bundle install --path /usr/local/bundle
-RUN JEKYLL_ENV=production jekyll build --verbose --config _config.yml && cp -r /srv/jekyll/_site/ /content
 FROM nginx:1.13-alpine
 RUN apk update && apk add git bash openssl curl
+RUN apk add --no-cache \
+        openssh-client \
+        ruby-dev \
+        build-base \
+    && gem install --no-document  \
+        jekyll \
+        bundler
 RUN git clone https://github.com/lukas2511/dehydrated.git /dehydrated
 COPY create_update_cert.sh /create_update_cert.sh
 RUN mkdir -p /etc/dehydrated/certs /etc/dehydrated/accounts /var/www/dehydrated
