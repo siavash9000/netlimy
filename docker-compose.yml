@@ -1,14 +1,29 @@
 version: "3.3"
 
 services:
-  serve:
-    image: jekyll/jekyll:latest
-    command: jekyll serve --config _config.yml --watch --verbose --livereload
+  netlimy:
+    image: registry.gitlab.com/nukapi/netlimy:latest
+    build:
+      context: .
     volumes:
-      - ./website:/srv/jekyll
-      - ./website/vendor/bundle:/usr/local/bundle
+      - website:/website
+      - updater_state:/updater_state
+      - deployment:/deployment
+    environment:
+      - WEBSITE_GIT_REPO=https://github.com/siavash9000/netlimy.com.git
+
+  nginx:
+    image: nginx:1.13-alpine
     ports:
-      - 4000:4000
-      - 35729:35729
-      - 3000:3000
-      -   80:4000
+      - 80:80
+    depends_on:
+      - netlimy
+    volumes:
+      - deployment:/deployment
+      - ./conf/nginx:/conf
+    command: "nginx -c /conf/nginx_nossl.conf -g 'daemon off;'"
+
+volumes:
+  website:
+  updater_state:
+  deployment:

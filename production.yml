@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   nginx:
-    image: registry.gitlab.com/nukapi/netlimy:latest
+    image: nginx:1.13-alpine
     ports:
       - 443:443
     deploy:
@@ -12,17 +12,32 @@ services:
     volumes:
       - dehydrated:/etc/dehydrated/
       - well_known:/var/www/dehydrated
-    command: "nginx -c /etc/nginx/nginx_ssl.conf -g 'daemon off;'"
+      - deployment:/deployment
+    configs:
+      - source: nginx
+        target: /etcnginx/nginx.conf
 
-  dehydrated:
+  netlimy:
     image: registry.gitlab.com/nukapi/netlimy:latest
     ports:
       - 80:80
     volumes:
       - dehydrated:/etc/dehydrated/
       - well_known:/var/www/dehydrated
-    command: /create_update_cert.sh
+      - website:/website
+      - updater_state:/updater_state
+      - deployment:/deployment
+    environment:
+      - WEBSITE_GIT_REPO=https://github.com/siavash9000/netlimy.com.git
+    command: /run.sh
 
 volumes:
   dehydrated:
   well_known:
+  website:
+  updater_state:
+  deployment:
+
+configs:
+  nginx:
+    file: conf/nginx/nginx_ssl.conf

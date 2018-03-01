@@ -1,11 +1,10 @@
 FROM nginx:1.13-alpine
 RUN apk update && apk add --no-cache git bash openssl curl python3 openssh-client ruby ruby-dev build-base
-RUN gem install --no-document  jekyll bundler
+RUN gem install --no-document bundler
 RUN git clone https://github.com/lukas2511/dehydrated.git /dehydrated
-COPY create_update_cert.sh /create_update_cert.sh
-RUN mkdir -p /etc/dehydrated/certs /etc/dehydrated/accounts /var/www/dehydrated
-COPY conf/nginx/ /etc/nginx/
+RUN mkdir -p /etc/dehydrated/certs /etc/dehydrated/accounts /var/www/dehydrated /website /updater_state /srv/jekyll/_site
+COPY run.sh /run.sh
 COPY conf/dehydrated/ /dehydrated/config/
-COPY --from=0 /content /website
+COPY website_updater.sh /website_updater.sh
 EXPOSE 80
-EXPOSE 443
+CMD /run.sh
