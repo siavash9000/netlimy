@@ -30,7 +30,7 @@ services:
       - deployment:/deployment
     environment:
       - WEBSITE_GIT_REPO=https://github.com/siavash9000/netlimy.com.git
-      - PRODUCTION="true"
+      - PRODUCTION=true
     command: /run.sh
 
 volumes:
