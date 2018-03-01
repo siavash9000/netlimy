@@ -13,7 +13,7 @@ do
     if [ -e /updater_state/last_commit.txt ]
     then
         last_commit_id=$(git log --format="%H" -n 1)
-        git pull origin master
+        git pull origin master &>/dev/null
         if [[ $(< /updater_state/last_commit.txt) != "$last_commit_id" ]]; then
             echo "Houston, we have a change"
             update_website
