@@ -19,7 +19,7 @@ do
             update_website
         fi
     else
-        echo "did not found /updater/last_commit.txt: cloning website"
+        echo "did not found /updater_state/last_commit.txt: cloning website"
         git clone $WEBSITE_GIT_REPO .
         touch /updater_state/last_commit.txt
         update_website
