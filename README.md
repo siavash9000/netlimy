@@ -1,16 +1,16 @@
 # What is netlimy ?
-netlimy is an easy to use and easy to scale website self hosting framework. It enables you to setup a running website including its continuous delivery within a few minutes on your own infrastructure. netlimy is for everyone who loves to conveniently run his own website and at the same time keep full control of the infrastructure.
+netlimy is an easy to use and easy to scale self hosting framework for jekyll websites. It is based solely on docker and enables you to setup a running website including continuous delivery within a few minutes on your own infrastructure. netlimy is for everyone who loves to conveniently run his own website and keeping full control over its infrastructure.
 
 ## Features:
 * no dependencies but docker.
-* easy setup 
-* fast and slick continuous delivery. push to git and see the content on your website 30 seconds later.
+* easy setup for your jekyll website.
+* fast continuous delivery. push to git and netlimy builds and deploy your website automatically.
 * form to email handler included. receive all form submissiions via email.
 * easily extendable through docker. add own apis easily and within minutes. 
 * easy scaling. add new server within seconds.
 * gitlab integration included
 
-# Getting started with the local setup
+# Test netlimy locally
 
 You can tryout netlimy easily with docker-compose. First clone the repo:
 
@@ -26,7 +26,7 @@ docker-compose up
 ```  
 
 Now you can open your website via [http://localhost](http://localhost) and start to adapt it. 
-netlimy uses jekyyls livereload feature, so that you can see all changes you make without reloading 
+netlimy uses jekylls livereload feature, so that you can see all changes you make without reloading 
 in your browser.
 
 # Getting started with the production setup
@@ -97,16 +97,18 @@ With docker-machine it is
 ```
 docker-machine ssh myserver docker swarm init
 ```
-You can also initialize a docker swarm on shell on your server with
+You can also initialize a docker swarm directly on a shell on your server with
 ```
 docker swarm init
 ```
-# Access your docker swarm
+# Deploy netlimy manually
 
-dind-machine as well as docker-machine enable you to easily access the docker daemon of your server via command line.
-You can inspect your running services 
+dind-machine as well as docker-machine enable you to easily access the docker daemon of your server. You can export the necessary variable environments easily with 
 ```
 eval $(dind-machine env myserver --shell zsh) && export DOCKER_CERT_PATH="$DIND_MACHINE_DATA/machine/machines/myserver"
+```
+and then list all your running services
+```
 sudo -E docker service ls
 
 ID                  NAME                MODE                REPLICAS            IMAGE                                       PORTS
@@ -119,7 +121,15 @@ ID                            HOSTNAME            STATUS              AVAILABILI
 7ggoswurrqm745by4mbc0uf6j *   myserver            Ready               Active              Leader
 ```
 
-## Deploy netlimy automatically via gitlab (recommended)
+You can deploy netlimy on your swarm with a single command. 
+```
+cd netlimy
+sudo -E docker stack deploy -c production.yml website
+```
+
+You can then inspect your stack 
+
+## Deploy netlimy automatically via gitlab
 netlimy has a `.gitlab-ci.yml` file, which defines a deployment to docker swarm on each successful build in [gitlab](https://www.gitlab.com). This enables you to update netlimy itself and all custom services you add just by pushing to your gitlab repo. You can customize the deployment process by adapting the ci file to your needs.  
 
 You need a gitlab account to automatically deploy your website wit each git commit. Create a new project and import netlimy from github as described in [https://docs.gitlab.com/ee/user/project/import/github.html](https://docs.gitlab.com/ee/user/project/import/github.html).
