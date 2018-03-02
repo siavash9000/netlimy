@@ -17,8 +17,8 @@ services:
       - MAIN_DOMAIN=test.netlimy.com
     configs:
       - source: nginx
-        target: /etc/nginx/nginx.conf.template
-    command: sh -c "sed -e "s/\${MAIN_DOMAIN}/test.netlimy.com/" /etc/nginx/nginx.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+        target: /etc/nginx/conf.d/default.conf
+    command: sh -c "sed -e "s/\${MAIN_DOMAIN}/test.netlimy.com/" /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
 
   netlimy:
     image: registry.gitlab.com/nukapi/netlimy:latest
