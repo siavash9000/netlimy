@@ -43,4 +43,4 @@ volumes:
 
 configs:
   nginx:
-    file: conf/nginx/nginx_ssl.conf
+    file: conf/nginx/nginx_production.conf

@@ -21,7 +21,7 @@ services:
     volumes:
       - deployment:/deployment
       - ./conf/nginx:/conf
-    command: "nginx -c /conf/nginx_nossl.conf -g 'daemon off;'"
+    command: "nginx -c /conf/nginx_development.conf -g 'daemon off;'"
 
 volumes:
   website:
