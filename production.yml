@@ -30,7 +30,7 @@ services:
     environment:
       - WEBSITE_GIT_REPO=https://github.com/siavash9000/netlimy.com.git
       - PRODUCTION=true
-      - DOMAINS="test.netlimy.com"
+      - DOMAINS=test.netlimy.com
     command: /run.sh
 
 volumes:
