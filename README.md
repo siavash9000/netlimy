@@ -25,9 +25,11 @@ cd netlimy
 docker-compose up
 ```  
 
-Now you can open your website via [http://localhost](http://localhost) and start to adapt it. 
-netlimy uses jekylls livereload feature, so that you can see all changes you make without reloading 
-in your browser.
+Now you can open the netlimy website via [http://localhost](http://localhost). Every git change 
+is redeployed. You can change the variable `WEBSITE_GIT_REPO` to your own jekyll website in the 
+file `docker-compose.yml` and restart netlimy. netlimy delivers now your website! netlimy pulls 
+the repo constantly and builds and redeploys the website in case of changes. You can test this mechanism
+by pushing a change to your website. Build and redeploy should be finished under a minute. 
 
 # Getting started with the production setup
 
@@ -101,7 +103,7 @@ You can also initialize a docker swarm directly on a shell on your server with
 ```
 docker swarm init
 ```
-# Deploy netlimy manually
+# Deploy netlimy manually with dind-machine or docker-machine
 
 dind-machine as well as docker-machine enable you to easily access the docker daemon of your server. You can export the necessary variable environments easily with 
 ```
@@ -129,7 +131,7 @@ sudo -E docker stack deploy -c production.yml website
 
 You can then inspect your stack 
 
-## Deploy netlimy automatically via gitlab
+## Deploy netlimy automatically via gitlab (recommended)
 netlimy has a `.gitlab-ci.yml` file, which defines a deployment to docker swarm on each successful build in [gitlab](https://www.gitlab.com). This enables you to update netlimy itself and all custom services you add just by pushing to your gitlab repo. You can customize the deployment process by adapting the ci file to your needs.  
 
 You need a gitlab account to automatically deploy your website wit each git commit. Create a new project and import netlimy from github as described in [https://docs.gitlab.com/ee/user/project/import/github.html](https://docs.gitlab.com/ee/user/project/import/github.html).
@@ -149,3 +151,13 @@ That's it. Gitlab builds your website now each time you commit something to your
 simple and therefore easy to adapt or extend. Just check out the file .gitlab-ci.yml
 
 # Add an API service and access it from your website via javascript
+The simple micorservice form2mail is part of the default stack of netlimy. This service forwards form submissions on your website to an email you
+declared. You can extend the form-api to your needs easily or deploy a completely new docker service by changing a few lines in `production.yml`.
+Test your changes first locally and add the service to the `docker-compose.yml`. Take care of [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
+The usage of form2mail`in netlimy is an example how cors can be handled in nginx.
+
+# Scaling netlimy
+If you host your own website you will probably asking yourself how many concurrent users can my website currently hanlde?
+When do I need to scale? Since netlimy is based `docker swarm` scaling means adding nodes to the swarm as described 
+[here](https://docs.docker.com/engine/swarm/swarm-tutorial/add-nodes/) and incresing the replica count in production.yml.
+Once added to the swarm docker takes care of the load balancing and the deployment on the new node.
