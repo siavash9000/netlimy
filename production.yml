@@ -18,7 +18,7 @@ services:
     configs:
       - source: nginx
         target: /etc/nginx/nginx.conf.template
-    command: envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -c /dehydrated/config/nginx.conf -g 'daemon off;'
+    command: envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -c /etc/nginx/nginx.conf -g 'daemon off;'
 
   netlimy:
     image: registry.gitlab.com/nukapi/netlimy:latest
