@@ -18,7 +18,7 @@ services:
     configs:
       - source: nginx
         target: /nginx_production.conf
-    command: sed -e 's/\${MAIN_DOMAIN}/test.netlimy.com/' /nginx_production.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'
+    command: sh -c "sed -e 's/\${MAIN_DOMAIN}/test.netlimy.com/' /nginx_production.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
 
   netlimy:
     image: registry.gitlab.com/nukapi/netlimy:latest
