@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 echo "PRODUCTION=$PRODUCTION"
 if [ "$PRODUCTION" == "true" ] ; then
-    echo "performing PRODUCTION stuff"
+    echo "adding dehydrated tor cron"
     echo " 0 24 * * *     /dehydrated/dehydrated --cron --accept-terms --config /dehydrated/config/conf" >> /etc/crontabs/root
     crond -c /etc/crontabs -f &
-    nginx -c /etc/nginx/nginx.conf -g 'daemon off;'
+    echo "starting nginx"
+    nginx -c /dehydrated/config/nginx_dehydrated.conf -g 'daemon off;'
     echo "$DOMAINS" > /domains.txt
     /dehydrated/dehydrated --cron --accept-terms --config /dehydrated/config/conf
 fi
