@@ -10,7 +10,6 @@ update_website () {
 cd /website
 while true
 do
-    echo "hello, this website_updater.sh"
     if [ -e /updater_state/last_commit.txt ]
     then
         last_commit_id=$(git log --format="%H" -n 1)
