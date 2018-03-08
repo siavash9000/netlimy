@@ -1,7 +1,7 @@
 # What is netlimy ?
 netlimy is an easy to use and easy to scale self hosting framework for jekyll websites. It is based solely on docker and enables you to setup a running website including continuous delivery within a few minutes on your own infrastructure. netlimy is for everyone who loves to conveniently run his own website and keeping full control over its infrastructure.
 
-## Features:
+### Features:
 * no dependencies but docker.
 * easy setup for your jekyll website.
 * fast continuous delivery. push to git and netlimy builds and deploy your website automatically.
@@ -10,7 +10,7 @@ netlimy is an easy to use and easy to scale self hosting framework for jekyll we
 * easy scaling. add new server within seconds.
 * gitlab integration included
 
-# Test netlimy locally
+## Test netlimy locally
 
 You can tryout netlimy easily with docker-compose. First clone the repo:
 
@@ -31,7 +31,7 @@ file `docker-compose.yml` and restart netlimy. netlimy delivers now your website
 the repo constantly and builds and redeploys the website in case of changes. You can test this mechanism
 by pushing a change to your website. Build and redeploy should be finished under a minute. 
 
-# Provision a cloud server (skip if you already have a server)
+## Provision a cloud server (skip if you already have a server)
 The easiest way to provision a cloud server for the purpose of setting up a docker swarm
 is [dind-machine](https://github.com/siavash9000/dind-machine). dind-machine enables you to
 to use [docker-machine](https://github.com/docker/machine) without installing it locally by 
@@ -85,7 +85,7 @@ n5kwc4ukzpegh9374b31v7sde *   myserver            Ready               Active    
 ```
 
 
-# Initialize a docker-swarm (Skip if you already have a running docker swarm)
+## Initialize a docker-swarm (Skip if you already have a running docker swarm)
 If you use [dind-machine](https://github.com/siavash9000/dind-machine) you can init a docker swarm on your server by 
 ```
 dind-machine ssh myserver docker swarm init
@@ -98,7 +98,7 @@ You can also initialize a docker swarm directly on a shell on your server with
 ```
 docker swarm init
 ```
-# Deploy netlimy automatically via gitlab
+## Deploy netlimy automatically via gitlab
 netlimy has a `.gitlab-ci.yml` file, which defines a deployment to docker swarm on each successful build in [gitlab](https://www.gitlab.com). This enables you to update netlimy itself and all custom services you add just by pushing to your gitlab repo. You can customize the deployment process by adapting the ci file to your needs.  
 
 You need a gitlab account to automatically deploy your website wit each git commit. Create a new project and import netlimy from github as described in [https://docs.gitlab.com/ee/user/project/import/github.html](https://docs.gitlab.com/ee/user/project/import/github.html).
@@ -117,7 +117,7 @@ For `NETLIMY_TLSKEY` you get the value with `sudo cat $DIND_MACHINE_DATA/machine
 That's it. Gitlab builds your website now each time you commit something to your repo. The build and deploy process is very 
 simple and therefore easy to adapt or extend. Just check out the file .gitlab-ci.yml
 
-# Deploy netlimy manually with dind-machine or docker-machine
+## Deploy netlimy manually with dind-machine or docker-machine
 
 dind-machine as well as docker-machine enable you to easily access the docker daemon of your server. You can export the necessary variable environments easily with 
 ```
@@ -145,13 +145,13 @@ sudo -E docker stack deploy -c production.yml website
 
 You can then inspect your stack 
 
-# Add an API service and access it from your website via javascript
+## Add an API service and access it from your website via javascript
 The simple micorservice form2mail is part of the default stack of netlimy. This service forwards form submissions on your website to an email you
 declared. You can extend the form-api to your needs easily or deploy a completely new docker service by changing a few lines in `production.yml`.
 Test your changes first locally and add the service to the `docker-compose.yml`. Take care of [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
 The usage of form2mail`in netlimy is an example how cors can be handled in nginx.
 
-# Scaling netlimy
+## Scaling netlimy
 If you host your own website you will probably asking yourself how many concurrent users can my website currently hanlde?
 When do I need to scale? Since netlimy is based `docker swarm` scaling means adding nodes to the swarm as described 
 [here](https://docs.docker.com/engine/swarm/swarm-tutorial/add-nodes/) and incresing the replica count in production.yml.
