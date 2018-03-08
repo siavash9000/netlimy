@@ -76,28 +76,6 @@ ID                            HOSTNAME            STATUS              AVAILABILI
 n5kwc4ukzpegh9374b31v7sde *   myserver            Ready               Active              Leader
 ```
 
-## Deploy netlimy automatically via gitlab
-
-netlimy has a `.gitlab-ci.yml` file, which defines a deployment to docker swarm on each successful build in [gitlab](https://www.gitlab.com). This enables you to update netlimy itself and all custom services you add just by pushing to your gitlab repo. You can customize the deployment process by adapting the ci file to your needs.   
-
-This part requires root ssh access to your server and a gitlab account. You will need to give the certificates gitlab to get the automatic deployment working. The following descriiption shows how you get the needed certs from your dokcer-machine setup. If you setup your docker swarm another way, create the described environment variables and obtain the values from your setup.  
-
-Create a new project in gitlab and import netlimy from github as described in [https://docs.gitlab.com/ee/user/project/import/github.html](https://docs.gitlab.com/ee/user/project/import/github.html).
-Then create secret variables in your project settings as described in 
-[https://docs.gitlab.com/ce/ci/variables/README.html#secret-variables](https://docs.gitlab.com/ce/ci/variables/README.html#secret-variables). You will need four variables:  
-1. `NETLIMY_SERVER_IP`    
-Write the ip adress of your server in this secret. If you used docker-machine for setting your server up,
-you can obtain the ip by ``` docker-machine ls``` or ``` docker-machine ls```
-
-2. `NETLIMY_TLSCACERT` , `NETLIMY_TLSCERT`, `NETLIMY_TLSKEY`  
-These variables gives the deployment script access to your docker swarm.
-For `NETLIMY_TLSCACERT` you get the value with `sudo cat ~/.docker/machine/machines/myserver/ca.pem` .
-For `NETLIMY_TLSCERT` you get the value with `sudo cat ~/.docker/machine/machines/myserver/cert.pem` .
-For `NETLIMY_TLSKEY` you get the value with `sudo cat ~/.docker/machine/machines/myserver/key.pem`.
-
-That's it. Gitlab builds your website now each time you commit something to your repo. The build and deploy process is very 
-simple and therefore easy to adapt or extend. Just check out the file .gitlab-ci.yml
-
 ## Deploy netlimy manually with dind-machine or docker-machine
 
 docker-machine gives you easily remote access to the docker daemon of your server. You can export the necessary variable environments easily with 
@@ -119,15 +97,47 @@ cd netlimy
 docker stack deploy -c production.yml netlimy
 ```
 
-You can then inspect your stack 
+You can then list your services with
 
-## Add an API service and access it from your website via javascript
+```
+docker service ls
+```
+
+Take a look on the netlimy logs with
+```
+docker service logs netlimy_netlimy
+```
+
+
+## Deploy netlimy automatically via gitlab (optional)
+
+netlimy has a `.gitlab-ci.yml` file, which defines a deployment to docker swarm on each successful build in [gitlab](https://www.gitlab.com). This enables you to update netlimy itself and all custom services you add just by pushing to your gitlab repo. You can customize the deployment process by adapting the ci file to your needs.   
+
+This part requires root ssh access to your server and a gitlab account. You will need to give the certificates gitlab to get the automatic deployment working. The following descriiption shows how you get the needed certs from your dokcer-machine setup. If you setup your docker swarm another way, create the described environment variables and obtain the values from your setup.  
+
+Create a new project in gitlab and import netlimy from github as described in [https://docs.gitlab.com/ee/user/project/import/github.html](https://docs.gitlab.com/ee/user/project/import/github.html).
+Then create secret variables in your project settings as described in 
+[https://docs.gitlab.com/ce/ci/variables/README.html#secret-variables](https://docs.gitlab.com/ce/ci/variables/README.html#secret-variables). You will need four variables:  
+1. `NETLIMY_SERVER_IP`    
+Write the ip adress of your server in this secret. If you used docker-machine for setting your server up,
+you can obtain the ip by ``` docker-machine ls``` or ``` docker-machine ls```
+
+2. `NETLIMY_TLSCACERT` , `NETLIMY_TLSCERT`, `NETLIMY_TLSKEY`  
+These variables gives the deployment script access to your docker swarm.
+For `NETLIMY_TLSCACERT` you get the value with `sudo cat ~/.docker/machine/machines/myserver/ca.pem` .
+For `NETLIMY_TLSCERT` you get the value with `sudo cat ~/.docker/machine/machines/myserver/cert.pem` .
+For `NETLIMY_TLSKEY` you get the value with `sudo cat ~/.docker/machine/machines/myserver/key.pem`.
+
+That's it. Gitlab builds your website now each time you commit something to your repo. The build and deploy process is very 
+simple and therefore easy to adapt or extend. Just check out the file .gitlab-ci.yml
+
+## Add an API service and access it from your website via javascript (optional)
 The simple micorservice form2mail is part of the default stack of netlimy. This service forwards form submissions on your website to an email you
 declared. You can extend the form-api to your needs easily or deploy a completely new docker service by changing a few lines in `production.yml`.
 Test your changes first locally and add the service to the `docker-compose.yml`. Take care of [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
 The usage of form2mail in netlimy is an example how cors can be handled in nginx.
 
-## Scaling netlimy
+## Scaling netlimy (optional)
 If you host your own website you will probably asking yourself how many concurrent users can my website currently hanlde?
 When do I need to scale? Since netlimy is based `docker swarm` scaling means adding nodes to the swarm as described 
 [here](https://docs.docker.com/engine/swarm/swarm-tutorial/add-nodes/) and incresing the replica count in production.yml.
