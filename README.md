@@ -31,116 +31,92 @@ file `docker-compose.yml` and restart netlimy. netlimy delivers now your website
 the repo constantly and builds and redeploys the website in case of changes. You can test this mechanism
 by pushing a change to your website. Build and redeploy should be finished under a minute. 
 
-## Provision a cloud server (skip if you already have a server)
-The easiest way to provision a cloud server for the purpose of setting up a docker swarm
-is [dind-machine](https://github.com/siavash9000/dind-machine). dind-machine enables you to
-to use [docker-machine](https://github.com/docker/machine) without installing it locally by 
-providing a docker image with docker-machine. docker-machine comes with several 
-[drivers](https://docs.docker.com/machine/drivers/) out of the box. To provision a 
-[digitalocean](https://www.digitalocean.com/), create a digitalocean account and a 
-[personal access token](https://www.digitalocean.com/community/tutorials/how-to-use-the-digitalocean-api-v2).
-Then perform the following commands:  
+## Provision a cloud server with docker-machine (skip if you already have a server)
+One easy way to provision a cloud server for the purpose of setting up a docker swarm
+is docker-machine. There exist official and community driver for docker-machine for many 
+cloud provider. You can provision a cloud server with docker installed in one command and 
+initialize docker swarm on it.
 
-1. pull the docker image of dind-machine:  
-```
-docker pull nukapi/dind-machine
-```  
-2. Define the path DIND_MACHINE_DATA to the sensitive docker-machine data:  
-```
-mkdir -p ~/.dind-machine
-export DIND_MACHINE_DATA=~/.dind-machine
-echo  'export DIND_MACHINE_DATA=~/.dind-machine' >> ~/.bashrc
-```  
-3. define an alias for dind-machine with:  
-```
-alias dind-machine="docker run -v $DIND_MACHINE_DATA:/root/.docker/ nukapi/dind-machine docker-machine"
-echo 'alias dind-machine="docker run -i -v $DIND_MACHINE_DATA:/root/.docker/ nukapi/dind-machine docker-machine"' >> ~/.bashrc
-```  
-
-Now you can provision a cloud server in one command and initialize docker swarm on it. 
-For example you can provision a digitalocean server for $0.007/hr and init a docker 
-swarm on it by replacing `PERSONAL_ACCESS_TOKEN` with your digitalocean personal access 
-token and perform the following commands to provision a small digitalocean cloud server:  
+The following example shows hot to provision one of the smallest avialable digitalocean server 
+for $0.007/hr. Replace `YOUR_PERSONAL_ACCESS_TOKEN` with your digitalocean personal access 
+token and perform the following command:  
 
 ```
-dind-machine create --driver digitalocean \  
---digitalocean-access-token=PERSONAL_ACCESS_TOKEN \  
+docker-machine create --driver digitalocean \  
+--digitalocean-access-token=YOUR_PERSONAL_ACCESS_TOKEN \  
 --engine-install-url https://raw.githubusercontent.com/rancher/install-docker/master/17.12.0.sh \  
 --digitalocean-size 1gb myserver  
 ```
 
 Verify your setup with 
 ```
-dind-machine ls 
+docker-machine ls 
 
 NAME            ACTIVE   DRIVER         STATE     URL                         SWARM   DOCKER        ERRORS
 myserver        -        generic        Running   tcp://MYSERVER_IP:2376              v17.12.0-ce   
-
-
-dind-machine ssh myserver docker node ls
-
-ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
-n5kwc4ukzpegh9374b31v7sde *   myserver            Ready               Active              Leader
-
 ```
 
 
 ## Initialize a docker-swarm (Skip if you already have a running docker swarm)
-If you use [dind-machine](https://github.com/siavash9000/dind-machine) you can init a docker swarm on your server by 
-```
-dind-machine ssh myserver docker swarm init
-```
-With docker-machine it is 
+If you use docker-machine you can init a docker swarm on your server by 
 ```
 docker-machine ssh myserver docker swarm init
 ```
-You can also initialize a docker swarm directly on a shell on your server with
+Without docker-machine open a shell on your server and perform
 ```
 docker swarm init
 ```
-## Deploy netlimy automatically via gitlab
-netlimy has a `.gitlab-ci.yml` file, which defines a deployment to docker swarm on each successful build in [gitlab](https://www.gitlab.com). This enables you to update netlimy itself and all custom services you add just by pushing to your gitlab repo. You can customize the deployment process by adapting the ci file to your needs.  
+Verify your setup with
+```
+docker-machine ssh myserver docker node ls
+```
+The output should look like this
+```
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
+n5kwc4ukzpegh9374b31v7sde *   myserver            Ready               Active              Leader
+```
 
-You need a gitlab account to automatically deploy your website wit each git commit. Create a new project and import netlimy from github as described in [https://docs.gitlab.com/ee/user/project/import/github.html](https://docs.gitlab.com/ee/user/project/import/github.html).
+## Deploy netlimy automatically via gitlab
+
+netlimy has a `.gitlab-ci.yml` file, which defines a deployment to docker swarm on each successful build in [gitlab](https://www.gitlab.com). This enables you to update netlimy itself and all custom services you add just by pushing to your gitlab repo. You can customize the deployment process by adapting the ci file to your needs.   
+
+This part requires root ssh access to your server and a gitlab account. You will need to give the certificates gitlab to get the automatic deployment working. The following descriiption shows how you get the needed certs from your dokcer-machine setup. If you setup your docker swarm another way, create the described environment variables and obtain the values from your setup.  
+
+Create a new project in gitlab and import netlimy from github as described in [https://docs.gitlab.com/ee/user/project/import/github.html](https://docs.gitlab.com/ee/user/project/import/github.html).
 Then create secret variables in your project settings as described in 
 [https://docs.gitlab.com/ce/ci/variables/README.html#secret-variables](https://docs.gitlab.com/ce/ci/variables/README.html#secret-variables). You will need four variables:  
 1. `NETLIMY_SERVER_IP`    
-Write the ip adress of your server in this secret. If you used dind-machine or docker-machine for setting your server up,
-you can obtain the ip by ``` dind-machine ls``` or ``` docker-machine ls```
+Write the ip adress of your server in this secret. If you used docker-machine for setting your server up,
+you can obtain the ip by ``` docker-machine ls``` or ``` docker-machine ls```
 
 2. `NETLIMY_TLSCACERT` , `NETLIMY_TLSCERT`, `NETLIMY_TLSKEY`  
-These variables are used in the .gitlab-ci.yml file to deploy to your swarm. You can find the values
-For `NETLIMY_TLSCACERT` you get the value with `sudo cat $DIND_MACHINE_DATA/machine/machines/myserver/ca.pem | xclip -i -selection clipboard` .
-For `NETLIMY_TLSCERT` you get the value with `sudo cat $DIND_MACHINE_DATA/machine/machines/myserver/cert.pem | xclip -i -selection clipboard` .
-For `NETLIMY_TLSKEY` you get the value with `sudo cat $DIND_MACHINE_DATA/machine/machines/myserver/key.pem | xclip -i -selection clipboard` .
+These variables gives the deployment script access to your docker swarm.
+For `NETLIMY_TLSCACERT` you get the value with `sudo cat ~/.docker/machine/machines/myserver/ca.pem` .
+For `NETLIMY_TLSCERT` you get the value with `sudo cat ~/.docker/machine/machines/myserver/cert.pem` .
+For `NETLIMY_TLSKEY` you get the value with `sudo cat ~/.docker/machine/machines/myserver/key.pem`.
 
 That's it. Gitlab builds your website now each time you commit something to your repo. The build and deploy process is very 
 simple and therefore easy to adapt or extend. Just check out the file .gitlab-ci.yml
 
 ## Deploy netlimy manually with dind-machine or docker-machine
 
-dind-machine as well as docker-machine enable you to easily access the docker daemon of your server. You can export the necessary variable environments easily with 
+docker-machine gives you easily remote access to the docker daemon of your server. You can export the necessary variable environments easily with 
 ```
-eval $(dind-machine env myserver --shell zsh) && export DOCKER_CERT_PATH="$DIND_MACHINE_DATA/machine/machines/myserver"
+eval $(docker-machine env myserver)
 ```
 and then list all your running services
 ```
-sudo -E docker service ls
-
-ID                  NAME                MODE                REPLICAS            IMAGE                                       PORTS
-l72csb3o8y58        netlimy_nginx       replicated          2/2                 registry.gitlab.com/nukapi/netlimy:latest   *:80->80/tcp
-
+docker service ls
 ```
 or check the state of your nodes
 ```
-ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
-7ggoswurrqm745by4mbc0uf6j *   myserver            Ready               Active              Leader
+docker node ls
 ```
 
-You can deploy netlimy on your swarm with a single command. 
+You can deploy netlimy on your swarm by
 ```
 cd netlimy
-sudo -E docker stack deploy -c production.yml website
+docker stack deploy -c production.yml netlimy
 ```
 
 You can then inspect your stack 
@@ -149,7 +125,7 @@ You can then inspect your stack
 The simple micorservice form2mail is part of the default stack of netlimy. This service forwards form submissions on your website to an email you
 declared. You can extend the form-api to your needs easily or deploy a completely new docker service by changing a few lines in `production.yml`.
 Test your changes first locally and add the service to the `docker-compose.yml`. Take care of [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
-The usage of form2mail`in netlimy is an example how cors can be handled in nginx.
+The usage of form2mail in netlimy is an example how cors can be handled in nginx.
 
 ## Scaling netlimy
 If you host your own website you will probably asking yourself how many concurrent users can my website currently hanlde?
