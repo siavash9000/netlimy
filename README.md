@@ -29,54 +29,17 @@ Now you can open the netlimy website via [http://localhost](http://localhost). E
 is redeployed. You can change the variable `WEBSITE_GIT_REPO` to your own jekyll website in the 
 file `docker-compose.yml` and restart netlimy. netlimy delivers now your website! netlimy pulls 
 the repo constantly and builds and redeploys the website in case of changes. You can test this mechanism
-by pushing a change to your website. Build and redeploy should be finished under a minute. 
+by pushing a change to your website. Build and redeploy should be finished in few minutes, depending on the perfromance of your 
+setup. 
 
-## Provision a cloud server with docker-machine (skip if you already have a server)
-One easy way to provision a cloud server for the purpose of setting up a docker swarm
-is docker-machine. There exist official and community driver for docker-machine for many 
-cloud provider. You can provision a cloud server with docker installed in one command and 
-initialize docker swarm on it.
+## Configure netlimy
 
-The following example shows hot to provision one of the smallest avialable digitalocean server 
-for $0.007/hr. Replace `YOUR_PERSONAL_ACCESS_TOKEN` with your digitalocean personal access 
-token and perform the following command:  
+The main part of the configuration is done in the file ```production.yml```. To deploy netlimy with your own website
+to the following adaptions
 
-```
-docker-machine create --driver digitalocean \  
---digitalocean-access-token=YOUR_PERSONAL_ACCESS_TOKEN \  
---engine-install-url https://raw.githubusercontent.com/rancher/install-docker/master/17.12.0.sh \  
---digitalocean-size 1gb myserver  
-```
+1. Set WEBSITE_GIT_REPO to your own website 
 
-Verify your setup with 
-```
-docker-machine ls 
-
-NAME            ACTIVE   DRIVER         STATE     URL                         SWARM   DOCKER        ERRORS
-myserver        -        generic        Running   tcp://MYSERVER_IP:2376              v17.12.0-ce   
-```
-
-
-## Initialize a docker-swarm (Skip if you already have a running docker swarm)
-If you use docker-machine you can init a docker swarm on your server by 
-```
-docker-machine ssh myserver docker swarm init
-```
-Without docker-machine open a shell on your server and perform
-```
-docker swarm init
-```
-Verify your setup with
-```
-docker-machine ssh myserver docker node ls
-```
-The output should look like this
-```
-ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
-n5kwc4ukzpegh9374b31v7sde *   myserver            Ready               Active              Leader
-```
-
-## Deploy netlimy manually with dind-machine or docker-machine
+## Deploy netlimy manually
 
 docker-machine gives you easily remote access to the docker daemon of your server. You can export the necessary variable environments easily with 
 ```
@@ -108,6 +71,50 @@ Take a look on the netlimy logs with
 docker service logs netlimy_netlimy
 ```
 
+## Provision a cloud server with docker-machine (optional)
+One easy way to provision a cloud server for the purpose of setting up a docker swarm
+is docker-machine. There exist official and community driver for docker-machine for many 
+cloud provider. You can provision a cloud server with docker installed in one command and 
+initialize docker swarm on it.
+
+The following example shows hot to provision one of the smallest avialable digitalocean server 
+for $0.007/hr. Replace `YOUR_PERSONAL_ACCESS_TOKEN` with your digitalocean personal access 
+token and perform the following command:  
+
+```
+docker-machine create --driver digitalocean \  
+--digitalocean-access-token=YOUR_PERSONAL_ACCESS_TOKEN \  
+--engine-install-url https://raw.githubusercontent.com/rancher/install-docker/master/17.12.0.sh \  
+--digitalocean-size 1gb myserver  
+```
+
+Verify your setup with 
+```
+docker-machine ls 
+
+NAME            ACTIVE   DRIVER         STATE     URL                         SWARM   DOCKER        ERRORS
+myserver        -        generic        Running   tcp://MYSERVER_IP:2376              v17.12.0-ce   
+```
+
+
+## Initialize a docker-swarm (optional)
+If you use docker-machine you can init a docker swarm on your server by 
+```
+docker-machine ssh myserver docker swarm init
+```
+Without docker-machine open a shell on your server and perform
+```
+docker swarm init
+```
+Verify your setup with
+```
+docker-machine ssh myserver docker node ls
+```
+The output should look like this
+```
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
+n5kwc4ukzpegh9374b31v7sde *   myserver            Ready               Active              Leader
+```
 
 ## Deploy netlimy automatically via gitlab (optional)
 
