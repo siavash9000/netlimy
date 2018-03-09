@@ -13,15 +13,13 @@ services:
       - dehydrated:/etc/dehydrated/
       - well_known:/var/www/dehydrated
       - deployment:/deployment
-    environment:
-      - MAIN_DOMAIN=test.netlimy.com
     configs:
       - source: nginx
         target: /nginx_production.conf
-    command: sh -c "sed -e 's/MAIN_DOMAIN/test.netlimy.com/' /nginx_production.conf > /etc/nginx/nginx_production.conf && nginx -c /etc/nginx/nginx_production.conf -g 'daemon off;'"
+    command: sh -c "sed -e 's/MAIN_DOMAIN/netlimy.com/' /nginx_production.conf > /etc/nginx/nginx_production.conf && nginx -c /etc/nginx/nginx_production.conf -g 'daemon off;'"
 
   netlimy:
-    image: registry.gitlab.com/nukapi/netlimy:latest
+    image: nukapi/netlimy:latest
     ports:
       - 80:80
     volumes:
@@ -33,7 +31,7 @@ services:
     environment:
       - WEBSITE_GIT_REPO=https://github.com/siavash9000/netlimy.com.git
       - PRODUCTION=true
-      - DOMAINS=test.netlimy.com
+      - DOMAINS=netlimy.com www.netlimy.com
     command: /run.sh
 
 volumes:
