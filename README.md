@@ -31,13 +31,21 @@ file `docker-compose.yml` and restart netlimy. netlimy delivers now your website
 the repo constantly and builds and redeploys the website in case of changes. You can test this mechanism
 by pushing a change to your website. Build and redeploy should be finished in few minutes, depending on the perfromance of your 
 setup. 
+## Requirements
+To deploy netlimy in production you will need:
+1. A running docker swarm
+2. A Domain which resolves to a node of your swarm.
+3. The website you want to deploy must be in a git repository, which is accessible via internet.
 
 ## Configure netlimy
 
 The main part of the configuration is done in the file ```production.yml```. To deploy netlimy with your own website
 to the following adaptions
 
-1. Set WEBSITE_GIT_REPO to your own website 
+1. Set `WEBSITE_GIT_REPO` to your own websites git repo
+2. Set `DOMAINS` to your domains, Seperate them with a whitespace. Configure your domain to resolve to one or multiple
+nodes of your docker swarm. You can do this on the website of your domain provider. *The dns configuration must be done before deploying netlimy. Otherwise netlimy will not be able to generate the certs neded for https.*
+3. In the command of the nginx service on line 19 replace *netlimy.com* with your main domain whis is also listed in the variable `DOMAINS`
 
 ## Deploy netlimy manually
 
@@ -53,19 +61,15 @@ or check the state of your nodes
 ```
 docker node ls
 ```
-
 You can deploy netlimy on your swarm by
 ```
 cd netlimy
 docker stack deploy -c production.yml netlimy
 ```
-
 You can then list your services with
-
 ```
 docker service ls
 ```
-
 Take a look on the netlimy logs with
 ```
 docker service logs netlimy_netlimy
