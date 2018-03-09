@@ -9,7 +9,6 @@ Don't want too loose control? Just DIY. But without pain.
 * automatic https cert generation and updates. secure connection without hassle
 * fast continuous delivery. push to git and netlimy builds and deploys your website automatically.
 * rolling updates. deploy changes with no downtime.
-* form to email handler included. receive all form submissions as email with the integrated [form2mail](https://github.com/siavash9000/form2mail).
 * no dependencies but docker.
 * easily extendable through docker. add own apis easily and within minutes. 
 * easy scaling. add new server without pain.
@@ -140,12 +139,6 @@ For `NETLIMY_TLSKEY` you get the value with `sudo cat ~/.docker/machine/machines
 
 That's it. Gitlab builds your website now each time you commit something to your repo. The build and deploy process is very 
 simple and therefore easy to adapt or extend. Just check out the file .gitlab-ci.yml
-
-## Add an API service and access it from your website via javascript (optional)
-The simple micorservice form2mail is part of the default stack of netlimy. This service forwards form submissions on your website to an email you
-declared. You can extend form2mail to your needs easily or deploy a completely new docker service by changing a few lines in `production.yml`.
-Test your changes first locally and add the service to the `docker-compose.yml`. Take care of [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
-The usage of form2mail in netlimy is an example how cors can be handled in nginx.
 
 ## Scaling netlimy (optional)
 Since netlimy is based `docker swarm` scaling means adding nodes to the swarm as described [here](https://docs.docker.com/engine/swarm/swarm-tutorial/add-nodes/) and incresing the replica count in production.yml.
