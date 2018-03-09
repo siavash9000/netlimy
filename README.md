@@ -9,7 +9,7 @@ Don't want too loose control? Just DIY. But without pain.
 * automatic https cert generation and updates. secure connection without hassle
 * fast continuous delivery. push to git and netlimy builds and deploys your website automatically.
 * rolling updates. deploy changes with no downtime.
-* form to email handler included. receive all form submissiions via email.
+* form to email handler included. receive all form submissions as email with the integrated [form2mail](https://github.com/siavash9000/form2mail).
 * no dependencies but docker.
 * easily extendable through docker. add own apis easily and within minutes. 
 * easy scaling. add new server without pain.
