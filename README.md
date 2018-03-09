@@ -143,7 +143,7 @@ simple and therefore easy to adapt or extend. Just check out the file .gitlab-ci
 
 ## Add an API service and access it from your website via javascript (optional)
 The simple micorservice form2mail is part of the default stack of netlimy. This service forwards form submissions on your website to an email you
-declared. You can extend the form-api to your needs easily or deploy a completely new docker service by changing a few lines in `production.yml`.
+declared. You can extend form2mail to your needs easily or deploy a completely new docker service by changing a few lines in `production.yml`.
 Test your changes first locally and add the service to the `docker-compose.yml`. Take care of [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing).
 The usage of form2mail in netlimy is an example how cors can be handled in nginx.
 
