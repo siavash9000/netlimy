@@ -1,12 +1,16 @@
 # What is netlimy ?
-netlimy is an easy to use and easy to scale self hosting framework for jekyll websites. It is based solely on docker and enables you to setup a running website including continuous delivery within a few minutes on your own infrastructure. netlimy is for everyone who loves to conveniently run his own website and keeping full control over its infrastructure.
+netlimy is an easy to use and easy to scale self hosting framework for jekyll websites. It is based solely on docker and enables you to setup a running website including continuous delivery within a few minutes on your own infrastructure or any cloud server which can run docker and docker swarm. 
+# Who is it for? 
+netlimy is for everyone who loves to conveniently run his own website while keeping full control over its infrastructure.
+Don't want too loose control? Just DIY. But without pain.
 
 ### Features:
-* no dependencies but docker.
 * easy setup for your jekyll website.
-* automatic https cert generation and updates.
+* automatic https cert generation and updates. secure connection without hassle
 * fast continuous delivery. push to git and netlimy builds and deploys your website automatically.
+* rolling updates. deploy changes with no downtime.
 * form to email handler included. receive all form submissiions via email.
+* no dependencies but docker.
 * easily extendable through docker. add own apis easily and within minutes. 
 * easy scaling. add new server without pain.
 * gitlab integration included.
@@ -144,7 +148,5 @@ Test your changes first locally and add the service to the `docker-compose.yml`.
 The usage of form2mail in netlimy is an example how cors can be handled in nginx.
 
 ## Scaling netlimy (optional)
-If you host your own website you will probably asking yourself how many concurrent users can my website currently hanlde?
-When do I need to scale? Since netlimy is based `docker swarm` scaling means adding nodes to the swarm as described 
-[here](https://docs.docker.com/engine/swarm/swarm-tutorial/add-nodes/) and incresing the replica count in production.yml.
-Once added to the swarm docker takes care of the load balancing and the deployment on the new node.
+Since netlimy is based `docker swarm` scaling means adding nodes to the swarm as described [here](https://docs.docker.com/engine/swarm/swarm-tutorial/add-nodes/) and incresing the replica count in production.yml.
+Once added to the swarm, docker takes care of the load balancing and the deployment on the new node.
