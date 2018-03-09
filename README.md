@@ -4,37 +4,30 @@ netlimy is an easy to use and easy to scale self hosting framework for jekyll we
 ### Features:
 * no dependencies but docker.
 * easy setup for your jekyll website.
-* fast continuous delivery. push to git and netlimy builds and deploy your website automatically.
+* automatic https cert generation and updates.
+* fast continuous delivery. push to git and netlimy builds and deploys your website automatically.
 * form to email handler included. receive all form submissiions via email.
 * easily extendable through docker. add own apis easily and within minutes. 
-* easy scaling. add new server within seconds.
-* gitlab integration included
+* easy scaling. add new server without pain.
+* gitlab integration included.
 
 ## Test netlimy locally
 
 You can tryout netlimy easily with docker-compose. First clone the repo:
-
 ```
 git clone https://github.com/siavash9000/netlimy.git
 ``` 
-
 and then start netlimy
-
 ```
 cd netlimy
 docker-compose up
 ```  
+Now you can open the netlimy website via [http://localhost](http://localhost). You can change the variable `WEBSITE_GIT_REPO` to your own jekyll website in the file `docker-compose.yml` and restart netlimy. netlimy delivers now your website! netlimy pulls the repo constantly and builds and redeploys the website in case of changes. You can test this mechanism by pushing a change to your website. Build and redeploy should be finished in few minutes, depending on the perfromance of your setup. 
 
-Now you can open the netlimy website via [http://localhost](http://localhost). Every git change 
-is redeployed. You can change the variable `WEBSITE_GIT_REPO` to your own jekyll website in the 
-file `docker-compose.yml` and restart netlimy. netlimy delivers now your website! netlimy pulls 
-the repo constantly and builds and redeploys the website in case of changes. You can test this mechanism
-by pushing a change to your website. Build and redeploy should be finished in few minutes, depending on the perfromance of your 
-setup. 
 ## Requirements
 To deploy netlimy in production you will need:
-1. A running docker swarm
-2. A Domain which resolves to a node of your swarm.
+1. A running docker swarm of arbitrary size (a single node swarm is perfectly ok)
+2. A Domain resolving to a node of your swarm.
 3. The website you want to deploy must be in a git repository, which is accessible via internet.
 
 ## Configure netlimy
@@ -46,6 +39,8 @@ to the following adaptions
 2. Set `DOMAINS` to your domains, Seperate them with a whitespace. Configure your domain to resolve to one or multiple
 nodes of your docker swarm. You can do this on the website of your domain provider. *The dns configuration must be done before deploying netlimy. Otherwise netlimy will not be able to generate the certs neded for https.*
 3. In the command of the nginx service on line 19 replace *netlimy.com* with your main domain whis is also listed in the variable `DOMAINS`
+4. If your swarm consist of multiple nodes, take care that netlimy and nginx are deployed to the same node. You can do this
+as described [https://docs.docker.com/compose/compose-file/#placement](https://docs.docker.com/compose/compose-file/#placement).
 
 ## Deploy netlimy manually
 
