@@ -1,7 +1,5 @@
 # What is netlimy ?
-netlimy is an easy to use and easy to scale self hosting framework for jekyll websites. It is based solely on docker and enables you to setup a running website including continuous delivery within a few minutes on your own infrastructure or any cloud server which can run docker and docker swarm.  
-netlimy is for everyone who loves to conveniently run his own website while keeping full control over its infrastructure.
-Don't want too loose control? Just DIY. But without pain.
+netlimy is an easy to use and easy to scale self hosting framework for jekyll websites. It is based solely on docker and enables you to setup a running website including continuous delivery within a few minutes on your own infrastructure or any cloud server which can run docker and docker swarm. netlimy is for everyone who loves to conveniently run his own website while keeping full control over its infrastructure. Don't want too loose control? Just DIY. But without pain.
 
 ### Features:
 * easy setup for your jekyll website.
