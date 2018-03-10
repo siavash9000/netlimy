@@ -15,7 +15,7 @@ Don't want too loose control? Just DIY. But without pain.
 
 ## Requirements
 To deploy netlimy in production you will need:
-1. A running docker swarm. A single node swarm is perfectly ok. See [below](## Provision a cloud server with docker-machine (optional)) if you need help setting up a docker swarm.
+1. A running docker swarm. A single node swarm is perfectly ok.
 2. A Domain resolving to a node of your swarm.
 3. The website you want to deploy must be in a git repository, which is accessible via internet.
 
@@ -31,7 +31,7 @@ nodes of your docker swarm. You can do this on the website of your domain provid
 4. If your swarm consist of multiple nodes, take care that netlimy and nginx are deployed to the same node. You can do this
 as described [https://docs.docker.com/compose/compose-file/#placement](https://docs.docker.com/compose/compose-file/#placement).
 
-## Deploy netlimy manually
+## Deploy netlimy
 
 docker-machine gives you easily remote access to the docker daemon of your server. You can export the necessary variable environments easily with 
 ```
@@ -59,7 +59,7 @@ Take a look on the netlimy logs with
 docker service logs netlimy_netlimy
 ```
 
-## Provision a cloud server with docker-machine (optional)
+## Setup a docker swarm in digital ocean (optional)
 One easy way to provision a cloud server for the purpose of setting up a docker swarm
 is docker-machine. There exist official and community driver for docker-machine for many 
 cloud provider. You can provision a cloud server with docker installed in one command and 
@@ -76,30 +76,22 @@ docker-machine create --driver digitalocean \
 --digitalocean-size 1gb myserver  
 ```
 
-Verify your setup with 
+Inspect your server: 
 ```
 docker-machine ls 
 
 NAME            ACTIVE   DRIVER         STATE     URL                         SWARM   DOCKER        ERRORS
-myserver        -        generic        Running   tcp://MYSERVER_IP:2376              v17.12.0-ce   
+myserver        -        digitalocean   Running   tcp://MYSERVER_IP:2376              v17.12.0-ce   
 ```
 
-
-## Initialize a docker-swarm (optional)
-If you use docker-machine you can init a docker swarm on your server by 
+Init a docker swarm:
 ```
 docker-machine ssh myserver docker swarm init
 ```
-Without docker-machine open a shell on your server and perform
+Inspect your swarm nodes:
 ```
-docker swarm init
-```
-Verify your setup with
-```
-docker-machine ssh myserver docker node ls
-```
-The output should look like this
-```
+docker node ls
+
 ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS
 n5kwc4ukzpegh9374b31v7sde *   myserver            Ready               Active              Leader
 ```
