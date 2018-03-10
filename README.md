@@ -16,16 +16,19 @@ To deploy netlimy in production you will need:
 2. A Domain resolving to a node of your swarm.
 3. The website you want to deploy must be in a git repository, which is accessible via internet.
 
-## Configure netlimy
+## Get Started
+First clone the repo:
+``` git clone https://github.com/siavash9000/netlimy.git```
+### Configure netlimy
 
 The main part of the configuration is done in the file ```production.yml```. To deploy netlimy with your own website
-to the following adaptions
-
+to the following adaptions  
+  
 1. Set `WEBSITE_GIT_REPO` to your own websites git repo
 2. Set `DOMAINS` to your domains, Seperate them with a whitespace. Configure your domain to resolve to one or multiple
 nodes of your docker swarm. You can do this on the website of your domain provider. *The dns configuration must be done before deploying netlimy. Otherwise netlimy will not be able to generate the certs neded for https.*
-3. In the command of the nginx service on line 19 replace *netlimy.com* with your main domain whis is also listed in the variable `DOMAINS`
-4. If your swarm consist of multiple nodes, take care that netlimy and nginx are deployed to the same node. You can do this
+3. In the command of the nginx service on line 19 replace *netlimy.com* with your main domain. In case of ```www.mywebsite.com``` this would be ```mywebsite.com```
+4. If your swarm consist of multiple servers, take care that netlimy and nginx are deployed on the same node. You can do this
 as described [https://docs.docker.com/compose/compose-file/#placement](https://docs.docker.com/compose/compose-file/#placement).
 
 ## Deploy netlimy
