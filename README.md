@@ -9,7 +9,6 @@ netlimy is an easy to use and easy to scale self hosting framework for jekyll we
 * no dependencies but docker.
 * easily extendable through docker. add own apis easily and within minutes. 
 * easy scaling. add new server without pain.
-* gitlab integration included.
 
 ## Requirements
 To deploy netlimy in production you will need:
@@ -35,14 +34,6 @@ docker-machine gives you easily remote access to the docker daemon of your serve
 ```
 eval $(docker-machine env myserver)
 ```
-and then list all your running services
-```
-docker service ls
-```
-or check the state of your nodes
-```
-docker node ls
-```
 You can deploy netlimy on your swarm by
 ```
 cd netlimy
@@ -51,6 +42,11 @@ docker stack deploy -c production.yml netlimy
 You can then list your services with
 ```
 docker service ls
+
+ID                  NAME                MODE                REPLICAS            IMAGE                     PORTS
+dcvdq8x2e4vl        nukapi_form2mail    replicated          2/2                 nukapi/form2mail:latest   
+jznrs8641qwq        nukapi_netlimy      replicated          1/1                 nukapi/netlimy:latest     *:80->80/tcp
+zr20trrok5lr        nukapi_nginx        replicated          2/2                 nginx:1.13-alpine         *:443->443/tcp
 ```
 Take a look on the netlimy logs with
 ```
