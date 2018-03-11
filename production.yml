@@ -34,13 +34,6 @@ services:
       - DOMAINS=netlimy.com www.netlimy.com
     command: /run.sh
 
-  form2mail:
-    image: nukapi/form2mail:latest
-    environment:
-      RELAYHOST: 'smtp-relay.gmail.com'
-      HOSTNAME: 'netlimy.com'
-    
-
 volumes:
   dehydrated:
   well_known:
