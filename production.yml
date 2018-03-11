@@ -6,7 +6,7 @@ services:
     ports:
       - 443:443
     deploy:
-      replicas: 4
+      replicas: 2
     depends_on:
       - nginx_letsencrypt
     volumes:
@@ -39,8 +39,7 @@ services:
     environment:
       RELAYHOST: 'smtp-relay.gmail.com'
       HOSTNAME: 'netlimy.com'
-    deploy:
-      replicas: 2
+    
 
 volumes:
   dehydrated:
