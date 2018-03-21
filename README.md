@@ -107,5 +107,5 @@ docker-compose up
 Now you can open the netlimy website via [http://localhost](http://localhost). You can change the variable `WEBSITE_GIT_REPO` to your own jekyll website in the file `docker-compose.yml` and restart netlimy. netlimy delivers now your website! netlimy pulls the repo constantly and builds and redeploys the website in case of changes. You can test this mechanism by pushing a change to your website. Build and redeploy should be finished in few minutes, depending on the perfromance of your setup. 
 
 ## Scaling netlimy (optional)
-Since netlimy is based `docker swarm` scaling means adding nodes to the swarm as described [here](https://docs.docker.com/engine/swarm/swarm-tutorial/add-nodes/) and incresing the replica count in production.yml.
+Since netlimy is based on docker swarm scaling means adding nodes to the swarm as described [here](https://docs.docker.com/engine/swarm/swarm-tutorial/add-nodes/) and incresing the replica count in production.yml.
 Once added to the swarm, docker takes care of the load balancing and the deployment on the new node.
