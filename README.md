@@ -22,7 +22,7 @@ First clone the repo:
 ### Configure netlimy
 
 The main part of the configuration is done in the file ```production.yml```. To deploy netlimy with your own website
-to the following adaptions  
+do the following changes:  
   
 1. Set `WEBSITE_GIT_REPO` to your own websites git repo
 2. Set `DOMAINS` to your domains, Seperate them with a whitespace. Configure your domain to resolve to one or multiple
